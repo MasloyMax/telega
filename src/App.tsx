@@ -9,6 +9,9 @@ export type MessagesType = {
     messages: string
 }
 
+export const lengthMessages = 5
+export const minMessages = 0
+
 function App() {
     const [messages, setMessages] = useState<Array<MessagesType>>([])
 
@@ -22,7 +25,7 @@ function App() {
 
     const deleteFirstMessages = () => {
         const deleteArr = [...messages]
-        setMessages(deleteArr.slice(0, -1))
+        setMessages(deleteArr.slice(1))
     }
 
     return (
@@ -31,7 +34,7 @@ function App() {
             <Chat addMessages={addMessages}
                   messages={messages}
                   deleteFirstMessages={deleteFirstMessages}
-                  />
+            />
         </div>
     );
 }

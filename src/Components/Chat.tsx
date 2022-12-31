@@ -1,5 +1,5 @@
-import React, {ChangeEvent,KeyboardEvent, useState} from "react";
-import {MessagesType} from "../App";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {lengthMessages, MessagesType, minMessages,} from "../App";
 import StyleChat from './chat.module.css'
 
 type PropsType = {
@@ -11,7 +11,11 @@ type PropsType = {
 const Chat = (props: PropsType) => {
     const [value, setValue] = useState('')
     const [error, setError] = useState<string | null>('')
-    const [counter, setCounter] = useState(5)
+    const [counter, setCounter] = useState(lengthMessages)
+    const disabledDelete = counter === lengthMessages ? true : false
+    const classDisable = disabledDelete === true ? StyleChat.disabled : StyleChat.button
+    const classInput = error ? StyleChat.input_error : StyleChat.input
+
 
     const {addMessages, messages, deleteFirstMessages} = props
 
@@ -23,8 +27,8 @@ const Chat = (props: PropsType) => {
     }
 
     const onClickInputHandler = () => {
-        if (value.trim() !== '' && counter <= 5) {
-            if (counter <= 5 && counter > 0) {
+        if (value.trim() !== '' && counter <= lengthMessages) {
+            if (counter <= lengthMessages && counter > minMessages) {
                 addMessages(value.trim())
                 setCounter(counter - 1)
                 setValue('')
@@ -37,20 +41,17 @@ const Chat = (props: PropsType) => {
     }
 
     const onKeyPressEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-      e.key === 'Enter' && onClickInputHandler()
+        e.key === 'Enter' && onClickInputHandler()
     }
 
     const onClickDeleteHandler = () => {
         deleteFirstMessages()
-        if (counter < 5 && counter >= 0) {
+        if (counter < lengthMessages && counter >= minMessages) {
             setCounter(counter + 1)
             setError('')
         }
     }
 
-    const disabledDelete = counter === 5 ? true : false
-    const classDisable = disabledDelete === true ? StyleChat.disabled : StyleChat.button
-    const classInput = error ? StyleChat.input_error : StyleChat.input
 
     const newArr = messages.length
         ? messages.map((t) => {
