@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {lengthMessages, MessagesType, minMessages,} from "../App";
 import StyleChat from './chat.module.css'
+import Button from "./Button/Button";
 
 type PropsType = {
     addMessages: (tx: string) => void
@@ -52,7 +53,6 @@ const Chat = (props: PropsType) => {
         }
     }
 
-
     const newArr = messages.length
         ? messages.map((t) => {
             return (
@@ -67,11 +67,12 @@ const Chat = (props: PropsType) => {
                 <input className={classInput} value={value}
                        onChange={onChangeInputHandler}
                        onKeyDown={onKeyPressEnterHandler}/>
-                <button className={StyleChat.button}
-                        onClick={onClickInputHandler}>Add</button>
-                <button className={classDisable}
-                        onClick={onClickDeleteHandler}
-                        disabled={disabledDelete}>FirstDelete</button>
+                <Button name={'Add'} callBack={onClickInputHandler}
+                        class={StyleChat.button}/>
+                <Button name={'FirstDelete'}
+                        callBack={onClickDeleteHandler}
+                        class={classDisable}
+                        disabled={disabledDelete}/>
             </span>
             <div>
                 {newArr}
